@@ -24,16 +24,25 @@ def getGameInfo(response):
     dates = []
     home_teams = []
     away_teams = []
-    home_teams_oddsFD = []
-    away_teams_oddsFD = []
-    home_teams_oddsDK = []
-    away_teams_oddsDK = []
+    home_teams_odds = []
+    away_teams_odds = []
 
     for gameNum in range(len(response)):
         dates.append(response[gameNum]['commence_time'])
         home_teams.append(response[gameNum]['home_team'])
         away_teams.append(response[gameNum]['away_team'])
 
+        home_odds = {}
+        away_odds = {}
+
+        for book_maker in response[gameNum]['bookmakers']:
+            if book_maker['markets'][0]['outcomes'][0]['name'] == home_teams[-1]:
+                home_odds.update({book_maker['title']: book_maker['markets'][0]['outcomes'][0]['price']})
+                away_odds.update({book_maker['title']: book_maker['markets'][0]['outcomes'][1]['price']})
+
+        home_teams_odds.append(home_odds)
+        away_teams_odds.append(away_odds)
+        '''
         if response[gameNum]['bookmakers'][0]['markets'][0]['outcomes'][0]['name'] == home_teams[-1]:
             home_teams_oddsFD.append(response[gameNum]['bookmakers'][0]['markets'][0]['outcomes'][0]['price'])
             away_teams_oddsFD.append(response[gameNum]['bookmakers'][0]['markets'][0]['outcomes'][1]['price'])
@@ -43,15 +52,15 @@ def getGameInfo(response):
             home_teams_oddsFD.append(response[gameNum]['bookmakers'][0]['markets'][0]['outcomes'][1]['price'])
             away_teams_oddsFD.append(response[gameNum]['bookmakers'][0]['markets'][0]['outcomes'][0]['price'])
             home_teams_oddsDK.append(response[gameNum]['bookmakers'][1]['markets'][0]['outcomes'][1]['price'])
-            away_teams_oddsDK.append(response[gameNum]['bookmakers'][1]['markets'][0]['outcomes'][0]['price'])
+            away_teams_oddsDK.append(response[gameNum]['bookmakers'][1]['markets'][0]['outcomes'][0]['price'])'''
 
-    return dates, home_teams, away_teams, home_teams_oddsFD, home_teams_oddsDK, away_teams_oddsFD, away_teams_oddsDK
+    return dates, home_teams, away_teams, home_teams_odds, away_teams_odds
+
+dates, home_teams, away_teams, ht_odds, at_odds = getGameInfo(data)
 
 
-dates, home_teams, away_teams, ht_odds_FD, ht_odds_DK, at_odds_FD, at_odds_DK = getGameInfo(data)
-
-
-x = 4
-print("On " + str(dates[x]) + ", the " + str(away_teams[x]) + "(" + str(at_odds_FD[x]) + ") are playing at the " + str(home_teams[x]) + "(" + str(ht_odds_FD[x]) + ")")
+x = 0
+print("On " + str(dates[x]) + ", the " + str(away_teams[x]) + "(" + str(at_odds[x]['FanDuel']) + ") are playing at the " + str(home_teams[x]) + "(" + str(ht_odds[x]['FanDuel']) + ") on Fanduel")
+print("On " + str(dates[x]) + ", the " + str(away_teams[x]) + "(" + str(at_odds[x]['DraftKings']) + ") are playing at the " + str(home_teams[x]) + "(" + str(ht_odds[x]['DraftKings']) + ") on DraftKings")
 
 print("----------------------\nREQUESTS REMAINING: " + sports_response.headers.get("x-requests-remaining") + "\n----------------------")
