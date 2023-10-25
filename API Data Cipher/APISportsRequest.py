@@ -11,11 +11,12 @@ api_key = 'd53a635c6f06ac165ea39e78a995a353'
 
 sports_list = ['americanfootball_nfl', 'americanfootball_ncaaf', 'basketball_nba', 'baseball_mlb', 'icehockey_nhl']
 odd_formatting_list = ['american', 'decimal']
-bookmakers_list = ['fanduel', 'draftkings', 'betmgm', 'betrivers']
+bookmakers_list = ['fanduel', 'draftkings', 'betmgm', 'betrivers', 'barstool']
 
 sport = sports_list[0]
-bookmaker = bookmakers_list[0] + "," + bookmakers_list[1]
-sports_response = requests.get(f'https://api.the-odds-api.com/v4/sports/{sport}/odds/?bookmakers={bookmaker}&oddsFormat=american&apiKey={api_key}')
+bookmaker = bookmakers_list[0] + "," + bookmakers_list[1] + "," + bookmakers_list[4]
+odd_format = odd_formatting_list[1]
+sports_response = requests.get(f'https://api.the-odds-api.com/v4/sports/{sport}/odds/?bookmakers={bookmaker}&oddsFormat={odd_format}&apiKey={api_key}')
 data = sports_response.json()
 
 
@@ -58,9 +59,10 @@ def getGameInfo(response):
 
 dates, home_teams, away_teams, ht_odds, at_odds = getGameInfo(data)
 
+print(ht_odds)
 
 x = 0
-print("On " + str(dates[x]) + ", the " + str(away_teams[x]) + "(" + str(at_odds[x]['FanDuel']) + ") are playing at the " + str(home_teams[x]) + "(" + str(ht_odds[x]['FanDuel']) + ") on Fanduel")
-print("On " + str(dates[x]) + ", the " + str(away_teams[x]) + "(" + str(at_odds[x]['DraftKings']) + ") are playing at the " + str(home_teams[x]) + "(" + str(ht_odds[x]['DraftKings']) + ") on DraftKings")
+#print("On " + str(dates[x]) + ", the " + str(away_teams[x]) + "(" + str(at_odds[x]['FanDuel']) + ") are playing at the " + str(home_teams[x]) + "(" + str(ht_odds[x]['FanDuel']) + ") on Fanduel")
+#print("On " + str(dates[x]) + ", the " + str(away_teams[x]) + "(" + str(at_odds[x]['DraftKings']) + ") are playing at the " + str(home_teams[x]) + "(" + str(ht_odds[x]['DraftKings']) + ") on DraftKings")
 
 print("----------------------\nREQUESTS REMAINING: " + sports_response.headers.get("x-requests-remaining") + "\n----------------------")

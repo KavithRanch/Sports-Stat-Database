@@ -9,6 +9,6 @@ Developed by Kavith Ranchagoda
 from bs4 import BeautifulSoup
 import requests
 
-web_text = requests.get('https://www.on.bet365.ca/?_h=3zJEiyz5L1Tkp5tF51B1wQ%3D%3D#/HO/').text  # Extracting html text from website
+web_text = requests.get('https://canada.sportsbook.fanduel.com/en/sports')  # Extracting html text from website
 web_soup = BeautifulSoup(web_text, 'lxml')  # Parsable html text
 print(web_soup)
