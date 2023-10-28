@@ -9,6 +9,7 @@ Developed by Kavith Ranchagoda
 from bs4 import BeautifulSoup
 import requests
 
-web_text = requests.get('https://canada.sportsbook.fanduel.com/en/sports')  # Extracting html text from website
+web_text = requests.get('https://www.cnn.com/').text  # Extracting html text from website
 web_soup = BeautifulSoup(web_text, 'lxml')  # Parsable html text
-print(web_soup)
+h2tags = web_soup.findAll('h2')
+print(h2tags)
